@@ -1,0 +1,14 @@
+- name: Update Hostname on Master
+  hostname:
+    name: kubemaster
+- name: Remove old Hosts file entry if exists
+  lineinfile:
+    path: /etc/hosts
+    backup: yes
+    regexp: "kubemaster"
+    state: absent
+- name: Add hosts file entry
+  lineinfile:
+    path: /etc/hosts
+    create: yes
+    line: '{{ ansible_default_ipv4.address }} kubemaster'

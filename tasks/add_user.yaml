@@ -1,0 +1,5 @@
+- name: Setup "{{ kubeuser }}" user to interact with kubernetes
+  user:
+    name: "{{ kubeuser }}"
+    state: present
+

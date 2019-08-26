@@ -1,0 +1,4 @@
+- name: Stop Firewall Service
+  systemd:
+    name: firewalld
+    state: stopped

@@ -1,2 +1,12 @@
 ---
 # tasks file for kubesetup
+- name: Setup Hostname
+  assert:
+    that:
+      - ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+- include: update_hostname.yaml
+- include: add_user.yaml
+- include: configure_selinux.yaml
+- include: configure_firewall.yaml
+- include: install_docker.yaml
+

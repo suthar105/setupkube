@@ -1,0 +1,31 @@
+- name: Install required dependent packages for Docker
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - "{{ docker_dependent_packages }}"
+- name: Configure Docker yum repository
+  template:
+    src: docker-ce.repo.j2
+    dest: /etc/yum.repos.d/docker-ce.repo
+- name: Update existing packages
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
+    disablerepo: docker-ce-stable
+- name: Installing Docker Packages
+  yum:
+    name: docker-ce-18.06.2.ce
+    state: installed
+- name: Configure Docker
+  block:
+    - file:
+        state: directory
+        path: /etc/docker
+    - template:
+        src: docker-daemon.json.j2
+        dest: /etc/docker/daemon.json
+    - file:
+        state: directory
+        path: /etc/systemd/system/docker.service.d

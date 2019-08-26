@@ -1,2 +1,12 @@
 ---
 # vars file for kubesetup
+
+## User account to interact with Kubernetes cluster
+kubeuser: alpesh
+
+
+docker_dependent_packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+    

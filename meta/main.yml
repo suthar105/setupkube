@@ -1,7 +1,7 @@
 galaxy_info:
-  author: your name
-  description: your description
-  company: your company (optional)
+  author: Alpesh Bhavsar
+  description: KubeSetup role is developed for automated installation of kubernetes cluster on CentOS nodes
+  company: CIGNEX Datamatics
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
