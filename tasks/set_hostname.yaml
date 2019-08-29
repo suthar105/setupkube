@@ -1,0 +1,16 @@
+- name: Update Hostname on {{ nodename }}
+  block:
+    - hostname:
+        name: "{{ nodename }}"
+    - debug: msg="Hostname changed to {{ nodename }} [{{ansible_default_ipv4.address}}]"
+    - lineinfile:
+        path: /etc/hosts
+        backup: yes
+        regexp: "{{ nodename }}"
+        state: absent
+    - lineinfile:
+        path: /etc/hosts
+        create: yes
+        line: '{{ ansible_default_ipv4.address }} {{ nodename }}'
+  tags:
+    - testhostname

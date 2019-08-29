@@ -4,9 +4,15 @@
   assert:
     that:
       - ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
-- include: update_hostname.yaml
+- include: set_hostname.yaml
+  #- include: update_hostname.yaml
 - include: add_user.yaml
 - include: configure_selinux.yaml
 - include: configure_firewall.yaml
+- include: turnoff_swap.yaml
 - include: install_docker.yaml
-
+- include: install_kube.yaml
+- include: configure_kubernetes.yaml
+- include: configure_kubectl.yaml
+- include: install_flunnel.yaml
+- include: configure_kubenode.yaml

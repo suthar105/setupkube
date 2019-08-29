@@ -1,0 +1,19 @@
+---
+- hosts: all
+  vars: 
+    - names: "{% for host in groups['runme'] %} {{ hostvars[host]['ansible_hostname']}} {% endfor %} "        
+  tasks:
+          #- name: Hosts | Update target hosts file entries dict with required entries
+          #  set_fact:
+          #etc_hosts_localhosts_dict_target: "{% for host in groups['runme'] %} {{ hostvars[host]['ansible_hostname'] }} {% endfor %}"
+    - name: Hosts Update (if necessary) hosts file
+      lineinfile:
+        dest: /tmp/hosts
+        regexp: "{{ item }}"
+        state: absent
+        backup: yes
+        unsafe_writes: yes
+      with_items: "{{ names.split( ) }}"
+
+
+

@@ -3,10 +3,15 @@
 
 ## User account to interact with Kubernetes cluster
 kubeuser: alpesh
-
-
 docker_dependent_packages:
   - yum-utils
   - device-mapper-persistent-data
   - lvm2
-    
+kubernetes_packages:
+  - kubelet
+  - kubeadm
+  - kubectl
+pod_network_cidr: "10.244.0.0/16"
+kube_token: b0f7b8.8d1767876297d85c
+kubemaster: kubemaster
+kubenode1: kubenode1

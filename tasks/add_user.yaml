@@ -2,4 +2,15 @@
   user:
     name: "{{ kubeuser }}"
     state: present
-
+  tags:
+    - adduser
+- name: Add user "{{ kubeuser }}" to sudo
+  lineinfile:
+    path: /etc/sudoers.d/{{ kubeuser }}
+    line: '{{ kubeuser }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    mode: 0440
+    create: yes
+    validate: 'visudo -cf %s'
+  tags:
+    - adduser

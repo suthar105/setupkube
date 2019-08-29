@@ -1,0 +1,15 @@
+- name: Reset Kubernetes Cluster if present
+  shell: "kubeadm reset --force"
+  register: kubereset
+- name: Setup Kuberntes Cluster
+  shell: |
+    kubeadm init \
+    --pod-network-cidr {{ pod_network_cidr }} \
+    --token {{ kube_token }}
+  register: output_kubeadm
+  when: 
+    - kubereset is succeeded
+    - nodename == "kubemaster"
+  tags:
+    - setupmaster
+- debug: msg="{{ output_kubeadm | to_nice_json }}"

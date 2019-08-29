@@ -1,0 +1,5 @@
+[kubemaster]
+192.168.10.203
+[kubenode1]
+192.168.10.226
+[kubenode2]

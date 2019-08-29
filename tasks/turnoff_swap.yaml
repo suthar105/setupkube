@@ -1,0 +1,7 @@
+- name: Turn off swap space
+  block:
+    - command: swapoff -a
+    - lineinfile:
+        path: /etc/fstab
+        regexp: "swap"  
+        state: absent

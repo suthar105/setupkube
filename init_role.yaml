@@ -1,5 +1,5 @@
-- name: Setup Kubernetes Cluster 
-  hosts: all
+---
+- hosts: "{{ nodename }}"
   become: yes
   roles: 
     - role: ../kubesetup

@@ -1,0 +1,24 @@
+- name: Check if kubeadmin initiated
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: kubeconfig
+  tags:
+    - configurekubectl
+- name: Setup Kubectl 
+  vars:
+    homedir: "/home/{{ kubeuser }}"
+    kubeconfpath: "{{ homedir }}/.kube"
+    kubeconffile: "{{ kubeconfpath }}/config"
+  block:
+    - file: 
+        path: "{{ kubeconfpath }}"
+        state: directory
+      become_user: "{{ kubeuser }}" 
+    - shell: 'cp /etc/kubernetes/admin.conf {{ kubeconffile }}'
+    - file:
+        path: "{{ kubeconffile }}" 
+        owner: "{{ kubeuser }}"
+        group: "{{ kubeuser }}"
+  when: kubeconfig.stat.exists == true 
+  tags:
+    - configurekubectl
