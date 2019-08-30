@@ -1,0 +1,5 @@
+---
+- hosts: kubenodes
+  become: yes
+  roles: 
+    - role: ../kubesetup

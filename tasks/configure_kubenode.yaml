@@ -1,7 +1,8 @@
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force"
   register: reset_cluster
-  when: nodename != "kubemaster"
+  when: nodetype != "master"
+  ignore_errors: yes
   tags:
     - kubejoin
 - name: Join Kube cluster
@@ -11,6 +12,6 @@
       "{{ hostvars[kubenode1]['ansible_eth0']['ipv4']['address'] }}":6443
   when: 
     - reset_cluster is succeeded
-    - nodename != "kubemaster"
+    - nodetype != "master"
   tags:
     - kubejoin

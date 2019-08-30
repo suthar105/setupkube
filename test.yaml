@@ -4,7 +4,7 @@
   tasks:
     - name: Remove Old hosts file entry
       vars:
-        - names: "{% for host in groups['runme'] %} {{ hostvars[host]['ansible_hostname']}} {% endfor %} "
+        - names: "{% for host in groups['kubecluster'] %} {{ hostvars[host]['ansible_hostname']}} {% endfor %} "
       lineinfile:
         dest: /tmp/hosts
         regexp: "{{ item }}"
@@ -16,7 +16,7 @@
       lineinfile:
         path: /tmp/hosts
         line: |-
-                {% for host in groups['runme'] %}
+                {% for host in groups['kubecluster'] %}
                 {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
                 {% endfor %}
         state: present

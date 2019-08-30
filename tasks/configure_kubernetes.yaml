@@ -9,7 +9,7 @@
   register: output_kubeadm
   when: 
     - kubereset is succeeded
-    - nodename == "kubemaster"
+    - nodetype == "master"
   tags:
     - setupmaster
 - debug: msg="{{ output_kubeadm | to_nice_json }}"

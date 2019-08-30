@@ -1,16 +1,26 @@
-- name: Update Hostname on {{ nodename }}
-  block:
-    - hostname:
-        name: "{{ nodename }}"
-    - debug: msg="Hostname changed to {{ nodename }} [{{ansible_default_ipv4.address}}]"
-    - lineinfile:
-        path: /etc/hosts
-        backup: yes
-        regexp: "{{ nodename }}"
-        state: absent
-    - lineinfile:
-        path: /etc/hosts
-        create: yes
-        line: '{{ ansible_default_ipv4.address }} {{ nodename }}'
+- name: Remove Old hosts file entry
+  vars:
+    - names: "{% for host in groups['kubecluster'] %} {{ hostvars[host]['ansible_hostname']}} {% endfor %} "
+  lineinfile:
+    dest: /tmp/hosts
+    regexp: "{{ item }}"
+    state: absent
+    backup: yes
+    unsafe_writes: yes
+  with_items: "{{ names.split( ) }}"
   tags:
-    - testhostname
+    - sethostname
+- name: Hosts populate inventory into hosts file
+  lineinfile:
+    path: /tmp/hosts
+    line: |-
+             {% for host in groups['kubecluster'] %}
+             {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
+             {% endfor %}
+    state: present
+    create: yes
+    backup: yes
+    unsafe_writes: yes
+  ignore_errors: yes
+  tags:
+    - sethostname
