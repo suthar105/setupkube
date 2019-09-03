@@ -2,6 +2,7 @@
   stat:
     path: /etc/kubernetes/admin.conf
   register: kubeconfig
+  when: "'kubemaster' in group_names"
   tags:
     - configurekubectl
 - name: Setup Kubectl 
@@ -19,6 +20,9 @@
         path: "{{ kubeconffile }}" 
         owner: "{{ kubeuser }}"
         group: "{{ kubeuser }}"
-  when: kubeconfig.stat.exists == true 
+  when: 
+    - kubeconfig.stat.exists == true
+    - "'kubemaster' in group_names"
+  ignore_errors: yes
   tags:
     - configurekubectl

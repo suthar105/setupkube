@@ -1,3 +1,4 @@
 - name: Disable SELinux
   selinux:
     state: disabled
+  when: "'kubecluster' in group_names"

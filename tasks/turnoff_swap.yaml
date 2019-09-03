@@ -5,3 +5,4 @@
         path: /etc/fstab
         regexp: "swap"  
         state: absent
+  when: "'kubecluster' in group_names"

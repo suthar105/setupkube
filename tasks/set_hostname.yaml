@@ -2,17 +2,19 @@
   vars:
     - names: "{% for host in groups['kubecluster'] %} {{ hostvars[host]['ansible_hostname']}} {% endfor %} "
   lineinfile:
-    dest: /tmp/hosts
+    dest: /etc/hosts
     regexp: "{{ item }}"
     state: absent
     backup: yes
     unsafe_writes: yes
   with_items: "{{ names.split( ) }}"
+  # when: "'kubecluster' in group_names"
   tags:
-    - sethostname
+    - removehostname
+    - sethosts
 - name: Hosts populate inventory into hosts file
   lineinfile:
-    path: /tmp/hosts
+    path: /etc/hosts
     line: |-
              {% for host in groups['kubecluster'] %}
              {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
@@ -22,5 +24,14 @@
     backup: yes
     unsafe_writes: yes
   ignore_errors: yes
+  #  when: "'kubecluster' in group_names"
+  tags:
+    - sethostsfile
+    - sethosts
+- name: Update Hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+  when: "'kubecluster' in group_names"
   tags:
     - sethostname
+    - sethosts

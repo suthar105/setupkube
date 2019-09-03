@@ -4,6 +4,7 @@
     state: present
   tags:
     - adduser
+  when: "'kubecluster' in group_names"
 - name: Add user "{{ kubeuser }}" to sudo
   lineinfile:
     path: /etc/sudoers.d/{{ kubeuser }}
@@ -12,5 +13,6 @@
     mode: 0440
     create: yes
     validate: 'visudo -cf %s'
+  when: "'kubecluster' in group_names"
   tags:
     - adduser

@@ -2,3 +2,4 @@
   systemd:
     name: firewalld
     state: stopped
+  when: "'kubecluster' in group_names"

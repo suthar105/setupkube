@@ -1,6 +1,7 @@
 - name: Reset Kubernetes Cluster if present
   shell: "kubeadm reset --force"
   register: kubereset
+  when: "'kubemaster' in group_names"
 - name: Setup Kuberntes Cluster
   shell: |
     kubeadm init \
@@ -9,7 +10,7 @@
   register: output_kubeadm
   when: 
     - kubereset is succeeded
-    - nodetype == "master"
+    - "'kubemaster' in group_names"
   tags:
     - setupmaster
 - debug: msg="{{ output_kubeadm | to_nice_json }}"

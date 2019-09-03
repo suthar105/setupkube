@@ -7,6 +7,11 @@
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
+    - wait_for:
+        port: 6443
+        delay: 30
+        timeout: 300
+        msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
     - get_url:
         url: https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml
         dest: "{{ flunnel_file }}"
@@ -15,3 +20,4 @@
       become_user: "{{ kubeuser }}"
     - debug:
         msg: "{{ output_kubejoin | to_nice_json }}"
+  when: "'kubemaster' in group_names"

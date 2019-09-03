@@ -2,12 +2,14 @@
   template:
     src: kubernetes.repo.j2
     dest: /etc/yum.repos.d/kubernetes.repo
+  when: "'kubecluster' in group_names"
 - name: Install Kubernetes packages
   yum:
     name: "{{ item }}"
     state: installed
   with_items:
     - "{{ kubernetes_packages }}"
+  when: "'kubecluster' in group_names"
 - name: Configure sysctl for kubernetes\
   sysctl:
     name: "{{ item }}"
@@ -18,10 +20,12 @@
   with_items:
     - net.bridge.bridge-nf-call-ip6tables
     - net.bridge.bridge-nf-call-iptables
+  when: "'kubecluster' in group_names"
 - name: Load br netfilter
   modprobe:
     name: br_netfilter
     state: present 
+  when: "'kubecluster' in group_names"
 - name: Configure cgroups for Kubernetes
   block:
     - lineinfile:
@@ -33,3 +37,4 @@
         name: kubelet
         state: restarted
         enabled: yes
+  when: "'kubecluster' in group_names"

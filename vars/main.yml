@@ -13,5 +13,5 @@ kubernetes_packages:
   - kubectl
 pod_network_cidr: "10.244.0.0/16"
 kube_token: b0f7b8.8d1767876297d85c
-kubemaster: kubemaster
-kubenode1: kubenode1
+#kubemaster: kubemaster
+#kubenode1: kubenode1
