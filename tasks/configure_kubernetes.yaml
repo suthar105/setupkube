@@ -2,6 +2,8 @@
   shell: "kubeadm reset --force"
   register: kubereset
   when: "'kubemaster' in group_names"
+  tags:
+    - setupmaster
 - name: Setup Kuberntes Cluster
   shell: |
     kubeadm init \

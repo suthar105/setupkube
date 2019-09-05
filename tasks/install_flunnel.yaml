@@ -4,7 +4,7 @@
   block:
     - name: Check if etcd is up and running...
       wait_for:
-        port: "kube_etcd_port"
+        port: "{{ kube_etcd_port }}"
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
