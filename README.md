@@ -10,19 +10,21 @@ This role requires fresh installation of CentOS in 3 machines. 1 for Kubemaster 
 
 Setup Key based authentication:
 Generate SSH keys in your local first:
+<pre>
 ssh-keygen -t rsa
-
+</pre>
 This will generate $HOME/.ssh/id_rsa and $HOME/.ssh/id_rsa.pub files. Now you need to copy public key(id_rsa.pub) from your local to all 3 remote nodes.
 
 For copying public key from local to all 3 remote servers, run below command.
-
+<pre>
 ssh-copy-id root@<kubemaster_ip>
-
+</pre>
 This will ask you for password, so enter password.
 
 Update Inventory file before running this role.
 
 inventory.txt
+<pre>
 all: # keys must be unique, i.e. only one 'hosts' per group
     hosts:
         kubemaster:
@@ -34,11 +36,14 @@ all: # keys must be unique, i.e. only one 'hosts' per group
         kubenode2:
             ansible_host: 192.168.10.206
             ansible_user: root
-
+</pre>
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The variabls are defined in vars/main.yaml file. 
+- kube_token: This is the hardcode token which will be used while setting up kubernetes cluster and joining kube cluster. You can change it to any value but keep the format as is.
+- pod_network_cidr: In this role, I have used flunnel as CNI. If you have any other choice, then you can change CIDR value as per your need. 
+- kubeuser: This variable will have the username by which you will be interacting with the kubernetes cluster. In this role, I have wrote code to setup user which will have limited priviledges but still it can interact with kubernetes cluster. 
 
 Dependencies
 ------------
@@ -48,11 +53,18 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+To use this role, first you need to download entire role from Github or from Ansible Galaxy.
+<pre>   
+ansible-galaxy install alpeshbhavsar.setupkube
+</pre>
+Use Role as shown below.
+<pre>
+---
+- hosts: all
+  become: yes
+  roles:
+    - role: alpeshbhavsar.setupkube
+</pre>
 
 License
 -------
