@@ -69,7 +69,7 @@ Use Role as shown below.
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
