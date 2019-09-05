@@ -24,7 +24,7 @@
 - name: Load br netfilter
   modprobe:
     name: br_netfilter
-    state: present 
+    state: present
   when: "'kubecluster' in group_names"
 - name: Configure cgroups for Kubernetes
   block:

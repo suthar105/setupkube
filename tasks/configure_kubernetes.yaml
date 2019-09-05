@@ -8,7 +8,7 @@
     --pod-network-cidr {{ pod_network_cidr }} \
     --token {{ kube_token }}
   register: output_kubeadm
-  when: 
+  when:
     - kubereset is succeeded
     - "'kubemaster' in group_names"
   tags:

@@ -5,22 +5,22 @@
   when: "'kubemaster' in group_names"
   tags:
     - configurekubectl
-- name: Setup Kubectl 
+- name: Setup Kubectl
   vars:
     homedir: "/home/{{ kubeuser }}"
     kubeconfpath: "{{ homedir }}/.kube"
     kubeconffile: "{{ kubeconfpath }}/config"
   block:
-    - file: 
+    - file:
         path: "{{ kubeconfpath }}"
         state: directory
-      become_user: "{{ kubeuser }}" 
+      become_user: "{{ kubeuser }}"
     - shell: 'cp /etc/kubernetes/admin.conf {{ kubeconffile }}'
     - file:
-        path: "{{ kubeconffile }}" 
+        path: "{{ kubeconffile }}"
         owner: "{{ kubeuser }}"
         group: "{{ kubeuser }}"
-  when: 
+  when:
     - kubeconfig.stat.exists == true
     - "'kubemaster' in group_names"
   ignore_errors: yes

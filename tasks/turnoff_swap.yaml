@@ -3,6 +3,6 @@
     - command: swapoff -a
     - lineinfile:
         path: /etc/fstab
-        regexp: "swap"  
+        regexp: "swap"
         state: absent
   when: "'kubecluster' in group_names"
