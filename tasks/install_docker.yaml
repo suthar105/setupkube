@@ -13,7 +13,7 @@
 - name: Update existing packages
   yum:
     name: "*"
-    state: latest
+    state: installed
     update_cache: yes
     disablerepo: docker-ce-stable
   when: "'kubecluster' in group_names"
