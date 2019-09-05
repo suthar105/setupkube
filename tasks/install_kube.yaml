@@ -28,11 +28,13 @@
   when: "'kubecluster' in group_names"
 - name: Configure cgroups for Kubernetes
   block:
-    - lineinfile:
+    - name: configure cgroup driver for kube
+      lineinfile:
         path: /etc/default/kubelet
         line: "KUBELET_EXTRA_ARGS=--cgroup-driver=systemd"
         create: yes
-    - systemd:
+    - name: Restart kubelet service
+      systemd:
         daemon_reload: yes
         name: kubelet
         state: restarted

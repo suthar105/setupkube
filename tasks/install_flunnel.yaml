@@ -2,20 +2,24 @@
   vars:
     - flunnel_file: "/tmp/flunnel.yaml"
   block:
-    - wait_for:
+    - name: Check if etcd is up and running...
+      wait_for:
         port: "kube_etcd_port"
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
-    - wait_for:
+    - name: Check if Kube API is available for use...
+      wait_for:
         port: "{{ kube_api_secure_port }}"
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
-    - get_url:
+    - name: Download Flunnel YAML
+      get_url:
         url: https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml
         dest: "{{ flunnel_file }}"
-    - shell: 'kubectl apply -f {{ flunnel_file }}'
+    - name: Install Flunnel
+      shell: 'kubectl apply -f {{ flunnel_file }}'
       register: output_kubejoin
       become_user: "{{ kubeuser }}"
     - debug:
