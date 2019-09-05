@@ -22,6 +22,7 @@
       shell: 'kubectl apply -f {{ flunnel_file }}'
       register: output_kubejoin
       become_user: "{{ kubeuser }}"
+      become: true
     - debug:
         msg: "{{ output_kubejoin | to_nice_json }}"
   when: "'kubemaster' in group_names"

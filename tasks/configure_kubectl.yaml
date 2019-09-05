@@ -16,6 +16,7 @@
         path: "{{ kubeconfpath }}"
         state: directory
       become_user: "{{ kubeuser }}"
+      become: true
     - name: Copy Kubeadmin conf to "{{ kubeconffile }}"
       shell: 'cp /etc/kubernetes/admin.conf {{ kubeconffile }}'
     - name: Set permission on Kube config
