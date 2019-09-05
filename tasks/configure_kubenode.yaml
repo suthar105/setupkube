@@ -12,7 +12,7 @@
   shell: |
       kubeadm join --token {{ kube_token }} \
       --discovery-token-unsafe-skip-ca-verification \
-      "{{ hostvars['kubemaster']['ansible_default_ipv4']['address'] }}":6443 || \
+      "{{ hostvars['kubemaster']['ansible_default_ipv4']['address'] }}":"{{ kube_api_secure_port }}" || \
       echo "{{ item }}" > /tmp/name
   when:
     - reset_cluster is succeeded

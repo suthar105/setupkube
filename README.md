@@ -6,7 +6,34 @@ A brief description of the role goes here.
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires fresh installation of CentOS in 3 machines. 1 for Kubemaster and 2 servers for Kubenodes. As we are going to run Ansible playbooks on all 3 servers so python packages should be installed already. Apart from that, key based authentication should be configured on all 3 servers, so that ansible-controller node can communicate and run playbook on them. The Ansible will run playbook as "root" user, so make sure that key based authentication is setup for root user.
+
+Setup Key based authentication:
+Generate SSH keys in your local first:
+ssh-keygen -t rsa
+
+This will generate $HOME/.ssh/id_rsa and $HOME/.ssh/id_rsa.pub files. Now you need to copy public key(id_rsa.pub) from your local to all 3 remote nodes.
+
+For copying public key from local to all 3 remote servers, run below command.
+
+ssh-copy-id root@<kubemaster_ip>
+
+This will ask you for password, so enter password.
+
+Update Inventory file before running this role.
+
+inventory.txt
+all: # keys must be unique, i.e. only one 'hosts' per group
+    hosts:
+        kubemaster:
+            ansible_host: 192.168.10.223
+            ansible_user: root
+        kubenode1:
+            ansible_host: 192.168.10.83
+            ansible_user: root
+        kubenode2:
+            ansible_host: 192.168.10.206
+            ansible_user: root
 
 Role Variables
 --------------

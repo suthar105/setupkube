@@ -17,14 +17,14 @@
     path: /etc/hosts
     line: |-
              {% for host in groups['kubecluster'] %}
-             {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
+             {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['inventory_hostname'] }}
              {% endfor %}
     state: present
     create: yes
     backup: yes
     unsafe_writes: yes
   ignore_errors: yes
-  #  when: "'kubecluster' in group_names"
+  when: "'kubecluster' in group_names"
   tags:
     - sethostsfile
     - sethosts

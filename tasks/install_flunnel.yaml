@@ -3,12 +3,12 @@
     - flunnel_file: "/tmp/flunnel.yaml"
   block:
     - wait_for:
-        port: 2379
+        port: "kube_etcd_port"
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"
     - wait_for:
-        port: 6443
+        port: "{{ kube_api_secure_port }}"
         delay: 30
         timeout: 300
         msg: "Looks like kubernetes Master couldn't spin up etcd pod in 300 seconds"

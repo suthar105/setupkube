@@ -12,6 +12,8 @@ kubernetes_packages:
   - kubeadm
   - kubectl
 pod_network_cidr: "10.244.0.0/16"
+kube_api_secure_port: 6443
+kube_etcd_port: 2379
 kube_token: b0f7b8.8d1767876297d85c
 #kubemaster: kubemaster
 #kubenode1: kubenode1
