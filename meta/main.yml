@@ -33,9 +33,10 @@ galaxy_info:
   # platforms is a list of platforms, and each platform has a name and a list of versions.
   #
   platforms:
-  - name: centos
+  - name: CentOS
     versions:
     - 7
+    - 7.1
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes
